@@ -1,0 +1,25 @@
+
+{% block content %}
+    <h1>Fórum</h1>
+
+    <!-- Formulário para criar uma nova postagem -->
+    <form method="post" action="{% url 'criar_postagem' %}">
+        {% csrf_token %}
+        <label for="titulo">Título da Postagem:</label>
+        <input type="text" id="titulo" name="titulo" required>
+        <label for="conteudo">Conteúdo da Postagem:</label>
+        <textarea id="conteudo" name="conteudo" rows="4" required></textarea>
+        <button type="submit">Criar Postagem</button>
+    </form>
+
+    <!-- Lista de postagens do fórum -->
+    <ul>
+        {% for postagem in postagens %}
+            <li>
+                <h2>{{ postagem.titulo }}</h2>
+                <p>{{ postagem.conteudo }}</p>
+                <small>Postado por: {{ postagem.autor }} em {{ postagem.data_postagem }}</small>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

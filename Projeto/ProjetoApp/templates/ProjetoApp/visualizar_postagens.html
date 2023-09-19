@@ -1,0 +1,18 @@
+{% load static %}
+
+{% block content %}
+    <h1>Visualizar Postagens</h1>
+
+    <ul>
+        {% for postagem in postagens %}
+            <li>
+                <h2>{{ postagem.titulo }}</h2>
+                <p>{{ postagem.conteudo }}</p>
+                <small>Postado por: {{ postagem.autor }} em {{ postagem.data_postagem }}</small>
+                {% if user == postagem.autor %}
+                <a href="{% url 'excluir_postagem' postagem.id %}">Excluir Postagem</a>
+            {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
