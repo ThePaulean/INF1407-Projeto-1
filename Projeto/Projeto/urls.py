@@ -26,11 +26,12 @@ from django.views.generic.edit import UpdateView
 from django.contrib.auth.models import User
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.auth.views import PasswordChangeDoneView
+from django.conf.urls.static import static
+
 
 app_name = 'Projeto'
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
     path('admin/', admin.site.urls), #remover pois se nao podem atacar o site, da acesso a parte de adminstrador
     path('',views.home, name='inicio'),
     path('accounts/',views.homeSec,name='sec-home'),
@@ -39,12 +40,12 @@ urlpatterns = [
     path('accounts/profile/',views.pagina_admin, name='sec-paginaSecreta'),
     path('accounts/registro/',views.registro,name='sec-registro'),
     path('logout/', LogoutView.as_view(next_page=reverse_lazy('sec-login'),), name='sec-logout'),
+    path("foruns/", views.listar_foruns, name="listar_foruns"),
+    path("criar_forum/", views.criar_forum, name="criar_forum"),
     path('criar_postagem/', views.criar_postagem, name='criar_postagem'),
-    path('visualizar_postagens/', views.visualizar_postagens, name='visualizar_postagens'),
+    path('foruns/<int:forum_id>/postagens/', views.visualizar_postagens, name='visualizar_postagens'),
     path('excluir_postagem/<int:postagem_id>/', views.excluir_postagem, name='excluir_postagem'),
-
     path('accounts/password_change/',PasswordChangeView.as_view(template_name='registro/password_change_form.html',success_url=reverse_lazy('sec-password_change_done'),), name='sec-password_change'),
     path('accounts/password_change_done/',PasswordChangeDoneView.as_view(template_name='registro/password_change_done.html',), name='sec-password_change_done'),
     path('accounts/terminaRegistro/<int:pk>/', UpdateView.as_view( template_name='registro/user_form.html',success_url=reverse_lazy('sec-paginaSecreta'),model=User,fields=['first_name','last_name','email',],), name='sec-completaDadosUsuario'),
-    
 ]

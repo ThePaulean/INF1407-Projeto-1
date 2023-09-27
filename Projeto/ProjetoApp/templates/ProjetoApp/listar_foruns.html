@@ -1,0 +1,18 @@
+
+{% block content %}
+<h2>Fóruns</h2>
+
+<h2><a href="{% url 'sec-home' %}">Conta</a></h2>
+
+<h3>
+    {% if user.is_superuser %}
+        <a href="{% url 'criar_forum' %}"> Criar Fórum</a>
+    {% endif %}
+</h3>
+
+<ul>
+    {% for forum in foruns %}
+    <li><a href="{% url 'visualizar_postagens' forum.id %}">{{ forum.nome }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}

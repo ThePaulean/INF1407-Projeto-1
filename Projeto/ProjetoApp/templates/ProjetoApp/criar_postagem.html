@@ -1,11 +1,23 @@
 
-{% block content %}
-    <h1>Criar Nova Postagem</h1>
+<style>
+    body {
+        background-color: blue;
+        background-size: cover;
+    }
 
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Publicar</button>
-    </form>
-    <a href="{% url 'forum' %}">Voltar para o Fórum</a>
-{% endblock %}
+</style>
+
+
+<html>
+    <body>
+        {% block content %}
+        <h1>Criar Nova Postagem</h1>
+
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Publicar</button>
+        </form>
+            <a href="{% url 'forum' %}">Voltar para o Fórum</a>
+        {% endblock %}
+<html>
