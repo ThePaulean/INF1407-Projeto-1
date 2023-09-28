@@ -1,0 +1,19 @@
+<h2>{{ postagem.titulo }}</h2>
+<p>{{ postagem.conteudo }}</p>
+
+<h1>Comentario</h1>
+    <form method="post">
+<!-- Formulário de Comentários -->
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Adicionar Comentário</button>
+</form>
+
+<!-- Lista de Comentários -->
+{% for comentario in postagem.comentario_set.all %}
+    <p>{{ comentario.autor }} comentou em {{ comentario.data_criacao }}:</p>
+    <p>{{ comentario.texto }}</p>
+{% empty %}
+    <p>Ainda não há comentários para esta postagem.</p>
+{% endfor %}
+

@@ -7,6 +7,8 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.views.generic.edit import UpdateView
 from .models import Postagem, Forum
 from .forms import PostagemForm, ForumForm
+from .models import Comentario
+from .forms import ComentarioForm
 from django.contrib import messages
 
 
@@ -52,61 +54,102 @@ def criar_forum(request):
         form = ForumForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect("ProjetoApp/listar_forum")
+            return redirect("listar_foruns")
     else:
         form = ForumForm()
     return render(request, 'ProjetoApp/criar_forum.html', {'form': form})
 
-
-def criar_postagem(request):
+@login_required
+def visualizar_e_criar_postagens(request, forum_id):
+    # Obtenha o objeto de fórum com base no forum_id ou retorne um erro 404 se não existir
+    forum = get_object_or_404(Forum, id=forum_id)
+    
+    # Obtenha todas as postagens relacionadas a este fórum
+    postagens = Postagem.objects.filter(forum=forum)
+    
+    # Formulário para criar uma nova postagem
     if request.method == 'POST':
         form = PostagemForm(request.POST)
         if form.is_valid():
             postagem = form.save(commit=False)
             postagem.autor = request.user
+            postagem.forum = forum  # Associe a postagem ao fórum correto
             postagem.save()
-            # Adicione uma mensagem de sucesso
-            messages.success(request, 'A postagem foi criada com sucesso!')
-            return redirect('visualizar_postagens')
+            return redirect('visualizar_e_criar_postagens', forum_id=forum_id)
     else:
         form = PostagemForm()
-    return render(request, 'criar_postagem.html', {'form': form})
 
+    context = {
+        'forum': forum,
+        'postagens': postagens,
+        'form': form,
+    }
+    return render(request, 'ProjetoApp/visualizar_postagens.html', context)
+@login_required
 
-def visualizar_postagens(request, forum_id):
-    # Buscar o fórum usando o forum_id
-    forum = get_object_or_404(Forum, id=forum_id)
+def editar_postagem(request, postagem_id):
+    postagem = get_object_or_404(Postagem, id=postagem_id)
 
-    # Filtra postagens que pertencem a esse forum
-    postagens = Postagem.objects.filter(forum=forum)
+    if request.method == 'POST':
+        form = PostagemForm(request.POST, instance=postagem)
+        if form.is_valid():
+            form.save()
+            return redirect('visualizar_e_criar_postagens', forum_id=postagem.forum.id)
+    else:
+        form = PostagemForm(instance=postagem)
 
-    mensagens = messages.get_messages(request)    
-
-    render_dict = {'postagens': postagens, 'mensagens': mensagens, "forum": forum}
-    return render(request, 'ProjetoApp/visualizar_postagens.html', render_dict)
+    return render(request, 'ProjetoApp/editar_postagem.html', {'form': form, 'postagem': postagem})
 
 
 def excluir_postagem(request, postagem_id):
     # Obtenha a postagem a ser excluída
     postagem = get_object_or_404(Postagem, id=postagem_id)
+    forum_id = postagem.forum.id
     # Verifique se o usuário atual é o autor da postagem
     if request.user == postagem.autor:
         # Exclua a postagem
         postagem.delete()
         # Redirecione para a página de visualização de postagens ou para onde você preferir
-        return redirect('visualizar_postagens')
+        return redirect('visualizar_e_criar_postagens', forum_id=forum_id)
     else:
         # Se o usuário não for o autor, você pode retornar uma mensagem de erro ou redirecioná-lo para outra página
-        return redirect('visualizar_postagens')  # Ou outra página de sua escolha
-    
+        return redirect('visualizar_e_criar_postagens', forum_id=forum_id)
+
+def excluir_forum(request, forum_id):
+    # Obtenha o fórum a ser excluído
+    forum = get_object_or_404(Forum, id=forum_id)
+
+    # Verifique se o usuário atual é o autor do fórum
+    if request.user == forum.autor:
+        # Exclua o fórum
+        forum.delete()
+        return redirect('listar_foruns', forum_id=forum_id)
+    else:
+    # Redirecione para a página de listagem de fóruns
+        return redirect('listar_foruns',forum_id=forum_id)   
+
+def adicionar_comentario(request, postagem_id):
+    postagem = Postagem.objects.get(pk=postagem_id)  # Substitua "Postagem" pelo nome do seu modelo de postagem
+
+    if request.method == 'POST':
+        form = ComentarioForm(request.POST)
+        if form.is_valid():
+            comentario = form.save(commit=False)
+            comentario.autor = request.user
+            comentario.postagem = postagem
+            comentario.save()
+            return redirect('visualizar_e_criar_postagens', forum_id=postagem.forum.id)  # Substitua 'visualizar_postagem' pela sua view de visualização de postagem
+    else:
+        form = ComentarioForm()
+
+    return render(request, 'ProjetoApp/adicionar_comentario.html', {'form': form})
 @login_required
 @user_passes_test(testa_acesso)
 
 def forum(request):
-    return render(request, 'ProjetoApp/homePageForum.html')
+    return render(request, 'ProjetoApp/listar_foruns.html')
 def paginaSecreta(request):
     return render(request, 'registro/paginaSecreta.html')
-
 
 
 @login_required  # Isso garante que apenas usuários autenticados possam acessar as views
@@ -114,12 +157,12 @@ def pagina_admin(request):
     if request.user.is_superuser:
         return render(request, 'registro/paginaSecreta.html')
     else:
-        return render(request, 'ProjetoApp/homePageForum.html')
+        return render(request, 'ProjetoApp/listar_foruns.html')
 
 @login_required
 def pagina_usuario(request):
     if not request.user.is_superuser:
-        return render(request, 'ProjetoApp/homePageForum.html')
+        return render(request, 'ProjetoApp/listar_foruns.html')
     else:
         return render(request, 'registro/paginaSecreta.html')
 

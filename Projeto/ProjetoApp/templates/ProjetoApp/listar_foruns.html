@@ -12,7 +12,13 @@
 
 <ul>
     {% for forum in foruns %}
-    <li><a href="{% url 'visualizar_postagens' forum.id %}">{{ forum.nome }}</a></li>
+    <li><a href="{% url 'visualizar_e_criar_postagens' forum.id %}">{{ forum.nome }}</a>
+        {% if user == forum.autor %}
+       <a href="{% url 'excluir_forum' forum.id %}">Excluir</a>
+       {% endif %}
+    
+    </li>
+ 
     {% endfor %}
 </ul>
 {% endblock %}

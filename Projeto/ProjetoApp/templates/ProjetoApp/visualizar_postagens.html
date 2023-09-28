@@ -1,18 +1,38 @@
-{% load static %}
+<h1>{{ forum.nome }}</h1>
+<h2>descricao: {{ forum.descricao }}</h2>
+<div>        
+    <a href="{% url 'sec-home'  %}">Tela inicial</a>
+</div>
+<!-- Formulário de criação de postagem -->
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Criar Postagem</button>
+</form>
 
-{% block content %}
-    <h1>Visualizar Postagens</h1>
-
-    <ul>
-        {% for postagem in postagens %}
-            <li>
-                <h2>{{ postagem.titulo }}</h2>
-                <p>{{ postagem.conteudo }}</p>
-                <small>Postado por: {{ postagem.autor }} em {{ postagem.data_postagem }}</small>
-                {% if user == postagem.autor %}
+<!-- Exibir postagens existentes -->
+<ul>
+    {% for postagem in postagens %}
+        <li>
+            <h2>{{ postagem.titulo }}</h2>
+            <p>{{ postagem.conteudo }}</p>
+            <small>Postado por: {{ postagem.autor }} em {{ postagem.data_postagem }}</small>
+            {% if user == postagem.autor or user.is_superuser %}
+                <a href="{% url 'editar_postagem' postagem.id %}">Editar Postagem</a>
                 <a href="{% url 'excluir_postagem' postagem.id %}">Excluir Postagem</a>
-            {% endif %}
-            </li>
-        {% endfor %}
-    </ul>
-{% endblock %}
+                <a href="{% url 'adicionar_comentario' postagem.id %}">Comentario</a>
+                {% endif %}
+                {% if user != postagem.autor or user.is_superuser %}
+                <a href="{% url 'adicionar_comentario' postagem.id %}">Comentario</a>
+                {% endif %}
+        </li>
+    
+        {% for comentario in postagem.comentario_set.all %}
+        <li> 
+            <p>{{ comentario.autor }} comentou em {{ comentario.data_criacao }}:</p>
+            <p>{{ comentario.texto }}</p>
+        {% empty %}
+            <p>Ainda não há comentários para esta postagem.</p>
+        {% endfor %}</li>
+    {% endfor %}
+</ul>

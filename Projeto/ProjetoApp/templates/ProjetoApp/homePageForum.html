@@ -3,7 +3,7 @@
     <h1>Fórum</h1>
 
     <!-- Formulário para criar uma nova postagem -->
-    <form method="post" action="{% url 'criar_postagem' %}">
+    <form method="post" action="{% url 'listar_foruns' %}">
         {% csrf_token %}
         <label for="titulo">Título da Postagem:</label>
         <input type="text" id="titulo" name="titulo" required>
