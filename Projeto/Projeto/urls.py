@@ -47,6 +47,8 @@ urlpatterns = [
     path('editar_postagem/<int:postagem_id>/editar/', views.editar_postagem, name='editar_postagem'),    
     path('excluir_postagem/<int:postagem_id>/', views.excluir_postagem, name='excluir_postagem'),
     path('excluir_forum/<int:forum_id>/', views.excluir_forum, name='excluir_forum'),
+    path('excluir_comentario/<int:comentario_id>/', views.excluir_comentario, name='excluir_comentario'),
+    path('editar_comentario/<int:comentario_id>/', views.editar_comentario, name='editar_comentario'),
     path('accounts/password_change/',PasswordChangeView.as_view(template_name='registro/password_change_form.html',success_url=reverse_lazy('sec-password_change_done'),), name='sec-password_change'),
     path('accounts/password_change_done/',PasswordChangeDoneView.as_view(template_name='registro/password_change_done.html',), name='sec-password_change_done'),
     path('accounts/terminaRegistro/<int:pk>/', UpdateView.as_view( template_name='registro/user_form.html',success_url=reverse_lazy('sec-paginaSecreta'),model=User,fields=['first_name','last_name','email',],), name='sec-completaDadosUsuario'),

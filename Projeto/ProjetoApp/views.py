@@ -143,6 +143,35 @@ def adicionar_comentario(request, postagem_id):
         form = ComentarioForm()
 
     return render(request, 'ProjetoApp/adicionar_comentario.html', {'form': form})
+
+def excluir_comentario(request, comentario_id):
+    comentario = get_object_or_404(Comentario, id=comentario_id)
+    
+    # Verifique se o usuário atual é o autor do comentário ou um administrador (ou outra lógica de autorização)
+    if request.user == comentario.autor or request.user.is_superuser:
+        comentario.delete()
+        # Redirecione para onde você deseja após a exclusão do comentário
+        return redirect('visualizar_e_criar_postagens', forum_id=comentario.postagem.forum.id)
+    else:
+        # Trate a situação em que o usuário não está autorizado a excluir o comentário
+        # Pode ser uma mensagem de erro ou redirecionamento para outra página
+        return redirect('visualizar_e_criar_postagens', forum_id=comentario.postagem.forum.id)
+def editar_comentario(request, comentario_id):
+    comentario = get_object_or_404(Comentario, id=comentario_id)
+
+    if request.user != comentario.autor:
+        # Se o usuário não for o autor do comentário, redirecione ou mostre uma mensagem de erro
+        return redirect('visualizar_e_criar_postagens', forum_id=comentario.postagem.forum.id)
+
+    if request.method == 'POST':
+        form = ComentarioForm(request.POST, instance=comentario)
+        if form.is_valid():
+            form.save()
+            return redirect('visualizar_e_criar_postagens', forum_id=comentario.postagem.forum.id)
+    else:
+        form = ComentarioForm(instance=comentario)
+
+    return render(request, 'ProjetoApp/editar_comentario.html', {'form': form, 'comentario': comentario})
 @login_required
 @user_passes_test(testa_acesso)
 

@@ -25,12 +25,18 @@
                 {% if user != postagem.autor or user.is_superuser %}
                 <a href="{% url 'adicionar_comentario' postagem.id %}">Comentario</a>
                 {% endif %}
+               
         </li>
     
         {% for comentario in postagem.comentario_set.all %}
         <li> 
             <p>{{ comentario.autor }} comentou em {{ comentario.data_criacao }}:</p>
             <p>{{ comentario.texto }}</p>
+            {% if user == comentario.autor %}
+            <a href="{% url 'excluir_comentario' comentario.id %}">Excluir Comentário</a>
+            <a href="{% url 'editar_comentario' comentario.id %}">Editar Comentário</a>
+
+        {% endif %}
         {% empty %}
             <p>Ainda não há comentários para esta postagem.</p>
         {% endfor %}</li>
