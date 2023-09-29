@@ -1,2 +1,4 @@
-venv/
+venv/*
 *.pyc
+admin_login.txt
+cmd_here.bat
