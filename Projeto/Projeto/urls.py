@@ -26,6 +26,8 @@ from django.views.generic.edit import UpdateView
 from django.contrib.auth.models import User
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.auth.views import PasswordChangeDoneView
+from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView
+from django.contrib.auth.views import PasswordResetConfirmView, PasswordResetCompleteView
 from django.conf.urls.static import static
 
 
@@ -52,5 +54,23 @@ urlpatterns = [
     path('editar_comentario/<int:comentario_id>/', views.editar_comentario, name='editar_comentario'),
     path('accounts/password_change/',PasswordChangeView.as_view(template_name='registro/password_change_form.html',success_url=reverse_lazy('sec-password_change_done'),), name='sec-password_change'),
     path('accounts/password_change_done/',PasswordChangeDoneView.as_view(template_name='registro/password_change_done.html',), name='sec-password_change_done'),
+    path('accounts/password_reset/', 
+         PasswordResetView.as_view(
+            template_name='registro/password_reset_form.html', 
+            success_url=reverse_lazy('sec-password_reset_done'),
+            html_email_template_name='registro/password_reset_email.html',
+            subject_template_name='registro/password_reset_subject.txt',
+            from_email='webmaster@meslin.com.br',
+        ), name='password_reset'),
+    path('accounts/password_reset_done/', PasswordResetDoneView.as_view(template_name='registro/password_reset_done.html',
+                                                                        ), name='sec-password_reset_done'),
+    path('accounts/password_reset_confirm/<uidb64>/<token>/',  
+        PasswordResetConfirmView.as_view(
+        template_name='registro/password_reset_confirm.html', 
+        success_url=reverse_lazy('sec-password_reset_complete'),
+        ), name='password_reset_confirm'),
+    path('accounts/password_reset_complete/', PasswordResetCompleteView.as_view(
+        template_name='registro/password_reset_complete.html'
+        ), name='sec-password_reset_complete'),
     path('accounts/terminaRegistro/<int:pk>/', UpdateView.as_view( template_name='registro/user_form.html',success_url=reverse_lazy('sec-paginaSecreta'),model=User,fields=['first_name','last_name','email',],), name='sec-completaDadosUsuario'),
 ]
