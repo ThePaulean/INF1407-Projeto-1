@@ -5,11 +5,14 @@ class ForumForm(forms.ModelForm):
     class Meta:
         model = Forum
         fields = ['nome', 'descricao']
-from django import forms
+
+        
 class PostagemForm(forms.ModelForm):
     class Meta:
         model = Postagem
         fields = ['titulo', 'conteudo']
+
+        
 class ComentarioForm(forms.ModelForm):
     class Meta:
         model = Comentario

@@ -14,6 +14,7 @@
     {% for forum in foruns %}
     <li><a href="{% url 'visualizar_e_criar_postagens' forum.id %}">{{ forum.nome }}</a>
         {% if user == forum.autor %}
+        <a href="{% url 'editar_forum' forum.id %}">Editar</a>
        <a href="{% url 'excluir_forum' forum.id %}">Excluir</a>
        {% endif %}
     

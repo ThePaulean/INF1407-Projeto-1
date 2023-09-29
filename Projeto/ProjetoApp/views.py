@@ -59,6 +59,25 @@ def criar_forum(request):
         form = ForumForm()
     return render(request, 'ProjetoApp/criar_forum.html', {'form': form})
 
+@user_passes_test(lambda u: u.is_superuser)
+def editar_forum(request, forum_id):
+    forum = get_object_or_404(Forum, id=forum_id)
+
+    if request.method == "POST":
+        form = ForumForm(request.POST, instance=forum)
+        if form.is_valid():
+            form.save()
+            return redirect("listar_foruns")
+    else:
+        form = ForumForm(instance=forum)
+
+    context = {
+        "form": form,
+        "forum": forum
+    }
+
+    return render(request, "ProjetoApp/edit_forum.html", context)
+
 @login_required
 def visualizar_e_criar_postagens(request, forum_id):
     # Obtenha o objeto de fórum com base no forum_id ou retorne um erro 404 se não existir
@@ -123,10 +142,10 @@ def excluir_forum(request, forum_id):
     if request.user == forum.autor:
         # Exclua o fórum
         forum.delete()
-        return redirect('listar_foruns', forum_id=forum_id)
+        return redirect('listar_foruns')
     else:
     # Redirecione para a página de listagem de fóruns
-        return redirect('listar_foruns',forum_id=forum_id)   
+        return redirect('listar_foruns')
 
 def adicionar_comentario(request, postagem_id):
     postagem = Postagem.objects.get(pk=postagem_id)  # Substitua "Postagem" pelo nome do seu modelo de postagem
