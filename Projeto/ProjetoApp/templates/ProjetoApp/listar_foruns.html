@@ -1,5 +1,14 @@
-
 {% block content %}
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet"
+        href="{% static 'css/lista_Foruns.css' %}">
+</head>
 <h2>Fóruns</h2>
 
 <h2><a href="{% url 'sec-home' %}">Conta</a></h2>
@@ -7,6 +16,8 @@
 <h3>
     {% if user.is_superuser %}
         <a href="{% url 'criar_forum' %}"> Criar Fórum</a>
+        <a href="{% url 'listar_usuarios' %}"> Lista de usuario</a>
+
     {% endif %}
 </h3>
 
@@ -23,3 +34,4 @@
     {% endfor %}
 </ul>
 {% endblock %}
+</html>

@@ -1,6 +1,14 @@
-{% block title %}Registro de Usuário{% endblock %}
 {% block content %}
-<h2>Página de Registro</h2>
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/registro.css' %}">
+</head>
+<body>
+    <h2>Página de Registro</h2>
 <form method="post" class="th">
     {% csrf_token %}
     <table class="formulario">
@@ -12,3 +20,6 @@
     </table>
 </form>
 {% endblock %}
+    
+</body>
+</html>

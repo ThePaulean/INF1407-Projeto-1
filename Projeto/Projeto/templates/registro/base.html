@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet"
-        href="{% static 'css/estilo.css' %}">
+        href="{% static 'css/base.css' %}">
 </head>
 <body>
     <h1>ConectaPuc</h1>
@@ -16,7 +16,7 @@
         | <a href="{% url 'sec-password_change' %}">Trocar senha</a>
         | <a href="{% url 'sec-completaDadosUsuario' pk=user.id %}">Terminar registro</a>
         {% else %}
-        | <a href="{% url 'sec-login' %}?next={% url 'forum' %}">Login</a>
+        | <a href="{% url 'sec-login' %}?next={% url 'listar_foruns' %}">Login</a>
         | <a href="{% url 'sec-registro' %}">Registrar</a>
         {% endif %}
     </div>

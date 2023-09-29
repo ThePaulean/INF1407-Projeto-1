@@ -10,10 +10,13 @@ from .forms import PostagemForm, ForumForm
 from .models import Comentario
 from .forms import ComentarioForm
 from django.contrib import messages
-
+from .models import PerfilUsuario
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import User
 
 #from django.http import HttpResponse
 # Create your views here.
+
 def home(request):
     #return HttpResponse("Olá mundo", content_type="text/plain")
     return render(request, 'ProjetoApp/home.html')
@@ -191,6 +194,23 @@ def editar_comentario(request, comentario_id):
         form = ComentarioForm(instance=comentario)
 
     return render(request, 'ProjetoApp/editar_comentario.html', {'form': form, 'comentario': comentario})
+def banir_usuario(request, usuario_id):
+    # Verifique se o usuário logado é um administrador
+    if request.user.is_superuser:
+        usuario = get_object_or_404(User, id=usuario_id)
+        perfil = get_object_or_404(PerfilUsuario, usuario=usuario)
+        perfil.banido = True
+        perfil.save()
+        # Redirecione para uma página de sucesso ou onde for apropriado
+        return redirect('listar_usuarios')
+    else:
+        # Redirecione para uma página de erro ou onde for apropriado
+        return redirect('listar_usuarios')
+    
+def listar_usuarios(request):
+    usuarios = User.objects.all()  # Consulta todos os usuários
+    return render(request, 'ProjetoApp/listar_usuarios.html', {'usuarios': usuarios})
+@login_required
 @login_required
 @user_passes_test(testa_acesso)
 
@@ -203,7 +223,7 @@ def paginaSecreta(request):
 @login_required  # Isso garante que apenas usuários autenticados possam acessar as views
 def pagina_admin(request):
     if request.user.is_superuser:
-        return render(request, 'registro/paginaSecreta.html')
+        return render(request, 'registro/homeSec.html')
     else:
         return render(request, 'ProjetoApp/listar_foruns.html')
 
@@ -212,7 +232,7 @@ def pagina_usuario(request):
     if not request.user.is_superuser:
         return render(request, 'ProjetoApp/listar_foruns.html')
     else:
-        return render(request, 'registro/paginaSecreta.html')
+        return render(request, 'registro/homeSec.html')
 
 
 class MeuUpdateView(UpdateView):

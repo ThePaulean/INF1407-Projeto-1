@@ -1,0 +1,53 @@
+/* Estilo para o corpo da página */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #007bff;
+    margin: 0;
+    padding: 0;
+    color: #fff;
+}
+
+/* Estilo para o cabeçalho */
+h1 {
+    text-align: center;
+    font-size: 36px;
+    margin-top: 30px;
+    color: #fff;
+}
+
+/* Estilo para a barra de navegação */
+div {
+    text-align: center;
+    margin-top: 20px;
+}
+
+div a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 18px;
+    margin: 0 10px;
+}
+
+div a:hover {
+    text-decoration: underline;
+}
+
+/* Estilo para o separador horizontal */
+hr {
+    border: none;
+    border-top: 2px solid #fff;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+/* Estilo para o conteúdo */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    color: #333;
+}
