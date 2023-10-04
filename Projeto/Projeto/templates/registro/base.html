@@ -1,26 +1,28 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
+    <meta name="description" content="ConectaPuc - Uma plataforma de conexão para a PUC.">
     <title>{% block title %}{% endblock %}</title>
-    <link rel="stylesheet"
-        href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
 </head>
 <body>
-    <h1>ConectaPuc</h1>
-    <div>
-        <a href="{% url 'listar_foruns' %}">Fóruns</a> |
+    <div class="navbar">
+        <h1>ConectaPuc</h1>
+        <a href="{% url 'listar_foruns' %}">Fóruns</a>
         {% if user.is_authenticated %}
-        | <a href="{% url 'sec-logout' %}">Logout</a>
-        | <a href="{% url 'sec-password_change' %}">Trocar senha</a>
-        | <a href="{% url 'sec-completaDadosUsuario' pk=user.id %}">Terminar registro</a>
+        <a href="{% url 'sec-logout' %}">Logout</a>
+        <a href="{% url 'sec-password_change' %}">Trocar senha</a>
+        <a href="{% url 'sec-completaDadosUsuario' pk=user.id %}">Adicionar Informações</a>
         {% else %}
-        | <a href="{% url 'sec-login' %}?next={% url 'listar_foruns' %}">Login</a>
-        | <a href="{% url 'sec-registro' %}">Registrar</a>
+        <a href="{% url 'sec-login' %}?next={% url 'listar_foruns' %}">Login</a>
+        <a href="{% url 'sec-registro' %}">Registrar</a>
         {% endif %}
     </div>
-    <hr>
-    {% block content %}{% endblock %}
+
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
 </body>
 </html>

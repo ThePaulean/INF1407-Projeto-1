@@ -1,10 +1,11 @@
 /* Estilo para o corpo da página */
 body {
     font-family: Arial, sans-serif;
-    background-color: #007bff;
+    background-color: #FFA500;
     margin: 0;
     padding: 0;
-    color: #fff;
+    color: #ffffff;
+    padding-left: 220px;  /* Adicionado para compensar a navbar fixa */
 }
 
 /* Estilo para o cabeçalho */
@@ -12,24 +13,7 @@ h1 {
     text-align: center;
     font-size: 36px;
     margin-top: 30px;
-    color: #fff;
-}
-
-/* Estilo para a barra de navegação */
-div {
-    text-align: center;
-    margin-top: 20px;
-}
-
-div a {
-    text-decoration: none;
-    color: #fff;
-    font-size: 18px;
-    margin: 0 10px;
-}
-
-div a:hover {
-    text-decoration: underline;
+    color: #000000;
 }
 
 /* Estilo para o separador horizontal */
@@ -45,9 +29,49 @@ hr {
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
-    background-color: #fff;
+    background-color: #000000;
     border-radius: 5px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
     color: #333;
+}
+
+/* Estilos para a barra de navegação */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 200px;
+    background-color: rgba(255, 165, 0, 0.8);
+    padding: 20px 10px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.navbar a {
+    display: block;
+    padding: 10px 5px;
+    margin: 5px 0;
+    text-align: left;
+    text-decoration: none;
+    color: #000000;
+    font-size: 18px;
+}
+
+.navbar a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.white-text-form, .white-text-form * {
+    color: #fff;  /* Define a cor do texto como branca */
+}
+
+/* Supondo que o ID do campo da nova senha seja "id_new_password1" */
+.form-row {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.form-label, .form-field {
+    flex: 1;
 }
