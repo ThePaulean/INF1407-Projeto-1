@@ -21,11 +21,11 @@
                 <a href="{% url 'editar_postagem' postagem.id %}">Editar Postagem</a>
                 <a href="{% url 'excluir_postagem' postagem.id %}">Excluir Postagem</a>
                 <a href="{% url 'adicionar_comentario' postagem.id %}">Comentario</a>
-                {% endif %}
-                {% if user != postagem.autor or user.is_superuser %}
-                <a href="{% url 'adicionar_comentario' postagem.id %}">Comentario</a>
-                {% endif %}
-               
+            {% endif %}
+            {% if user != postagem.autor and not user.is_superuser %}
+            <a href="{% url 'adicionar_comentario' postagem.id %}">Comentario</a>
+            {% endif %}
+            
         </li>
     
         {% for comentario in postagem.comentario_set.all %}
