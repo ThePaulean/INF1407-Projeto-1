@@ -1,0 +1,115 @@
+/* Estilo para o título do fórum */
+h1 {
+    font-size: 28px;
+    color: #333;
+}
+
+/* Estilo para a descrição do fórum */
+h2 {
+    font-size: 18px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+/* Estilo para os links de navegação */
+a {
+    text-decoration: none;
+    color: #0078d4;
+    margin-right: 20px;
+}
+
+/* Estilos para o formulário de criação de postagem */
+.postagem-form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilos para rótulos e campos de entrada */
+.postagem-form label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.postagem-form input[type="text"],
+.postagem-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+/* Estilos para o botão de envio */
+.postagem-form .btn-submit {
+    background-color: #0078d4;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.postagem-form .btn-submit:hover {
+    background-color: #005aa0;
+}
+
+
+/* Estilo para as postagens */
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+/* Estilo para o autor e data da postagem */
+small {
+    font-size: 12px;
+    color: #888;
+}
+
+/* Estilo para os links de ação nas postagens */
+li a {
+    margin-right: 10px;
+    color: #0078d4;
+}
+
+/* Estilo para os comentários aninhados */
+ul.comentarios {
+    margin-left: 20px; /* Adiciona um recuo (TAB) aos comentários */
+    list-style-type: none; /* Remove marcadores de lista */
+}
+
+/* Estilo para cada comentário individual */
+ul.comentarios li {
+    border: none;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilo para o autor e data do comentário */
+ul.comentarios li small {
+    font-size: 12px;
+    color: #888;
+    display: block;
+    margin-top: 5px;
+}
+
+/* Estilo para os links de ação nos comentários */
+ul.comentarios li a {
+    margin-right: 10px;
+    color: #0078d4;
+}

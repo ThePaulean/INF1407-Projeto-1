@@ -1,13 +1,16 @@
+{%load static%}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <head><link rel="stylesheet" type="text/css" href="{% static 'css/editar_postagem.css' %}"></head>
+
     <title>Editar Postagem</title>
 </head>
 <body>
     <h1>Editar Postagem</h1>
-    <form method="post">
+    <form method="post" class="edit-post-form">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Salvar Edições</button>

@@ -194,18 +194,18 @@ def editar_comentario(request, comentario_id):
         form = ComentarioForm(instance=comentario)
 
     return render(request, 'ProjetoApp/editar_comentario.html', {'form': form, 'comentario': comentario})
-def banir_usuario(request, usuario_id):
-    # Verifique se o usuário logado é um administrador
-    if request.user.is_superuser:
-        usuario = get_object_or_404(User, id=usuario_id)
-        perfil = get_object_or_404(PerfilUsuario, usuario=usuario)
-        perfil.banido = True
-        perfil.save()
-        # Redirecione para uma página de sucesso ou onde for apropriado
-        return redirect('listar_usuarios')
-    else:
-        # Redirecione para uma página de erro ou onde for apropriado
-        return redirect('listar_usuarios')
+# def banir_usuario(request, usuario_id):
+#     # Verifique se o usuário logado é um administrador
+#     if request.user.is_superuser:
+#         usuario = get_object_or_404(User, id=usuario_id)
+#         perfil = get_object_or_404(PerfilUsuario, usuario=usuario)
+#         perfil.banido = True
+#         perfil.save()
+#         # Redirecione para uma página de sucesso ou onde for apropriado
+#         return redirect('listar_usuarios')
+#     else:
+#         # Redirecione para uma página de erro ou onde for apropriado
+#         return redirect('listar_usuarios')
     
 def listar_usuarios(request):
     usuarios = User.objects.all()  # Consulta todos os usuários

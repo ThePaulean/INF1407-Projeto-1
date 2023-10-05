@@ -1,5 +1,13 @@
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Criar Fórum</button>
-</form>
+{% load static%}
+{% block content %}
+
+<html>
+    <head><link rel="stylesheet" type="text/css" href="{% static 'css/criar_forum.css' %}"></head>
+    <h2>Criar Fórum</h2>
+    <form method="post" class="create-forum-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn-submit">Criar Fórum</button>
+    </form>
+</html>
+{% endblock %}

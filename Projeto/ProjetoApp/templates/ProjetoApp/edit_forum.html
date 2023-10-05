@@ -1,8 +1,12 @@
+{%load static%}
 {% block content %}
+<html>
+    <head><link rel="stylesheet" type="text/css" href="{% static 'css/editar_Foruns.css' %}"></head>
     <h2>Editar Fórum: {{ forum.nome }}</h2>
-    <form method="post">
+    <form method="post" class="edit-forum-form">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Salvar alterações</button>
     </form>
+</html>
 {% endblock %}

@@ -1,0 +1,40 @@
+/* Estilos para o formulário de comentários */
+.comment-form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilos para rótulos e campos de entrada */
+.comment-form label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.comment-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    height: 100px; /* Altura do campo de comentário */
+}
+
+/* Estilos para o botão de envio */
+.comment-form .btn-submit {
+    background-color: #0078d4;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.comment-form .btn-submit:hover {
+    background-color: #005aa0;
+}

@@ -1,5 +1,11 @@
-<form method="post">
+{%load static%}
+<html>
+    <head><link rel="stylesheet" type="text/css" href="{% static 'css/editar_comentario.css' %}"></head>
+
+<form method="post" class="edit-form">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Salvar Edição</button>
 </form>
+
+</html>
