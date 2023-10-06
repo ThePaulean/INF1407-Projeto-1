@@ -3,30 +3,27 @@ from django.shortcuts import redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
-from django.contrib.admin.views.decorators import staff_member_required
 from django.views.generic.edit import UpdateView
 from .models import Postagem, Forum
 from .forms import PostagemForm, ForumForm
 from .models import Comentario
 from .forms import ComentarioForm
-from django.contrib import messages
-from .models import PerfilUsuario
-from django.contrib.auth import authenticate, login
-from django.contrib.auth.models import User
 
-#from django.http import HttpResponse
+
+
+
 # Create your views here.
 
 def home(request):
-    #return HttpResponse("Olá mundo", content_type="text/plain")
     return render(request, 'ProjetoApp/home.html')
 
 
 def homeSec(request):
     return render(request, "registro/homeSec.html")
 
-
+#View que fazer o registro
 def registro(request):
+    #criação do formualrio
     if request.method == 'POST':
         formulario = UserCreationForm(request.POST)
         if formulario.is_valid():
@@ -47,10 +44,12 @@ def testa_acesso(user):
         return False
     
 
+#Views da listagem dos foruns
 def listar_foruns(request):
     foruns = Forum.objects.all().order_by("nome")
     return render(request, "ProjetoApp/listar_foruns.html", {"foruns" : foruns})
 
+#Views dos foruns 
 @user_passes_test(lambda u: u.is_superuser)
 def criar_forum(request):
     if request.method == "POST":
@@ -61,7 +60,6 @@ def criar_forum(request):
     else:
         form = ForumForm()
     return render(request, 'ProjetoApp/criar_forum.html', {'form': form})
-
 @user_passes_test(lambda u: u.is_superuser)
 def editar_forum(request, forum_id):
     forum = get_object_or_404(Forum, id=forum_id)
@@ -81,6 +79,20 @@ def editar_forum(request, forum_id):
 
     return render(request, "ProjetoApp/edit_forum.html", context)
 
+def excluir_forum(request, forum_id):
+    # Obtenha o fórum a ser excluído
+    forum = get_object_or_404(Forum, id=forum_id)
+
+    # Verifique se o usuário atual é o autor do fórum
+    if request.user == forum.autor:
+        # Exclua o fórum
+        forum.delete()
+        return redirect('listar_foruns')
+    else:
+    # Redirecione para a página de listagem de fóruns
+        return redirect('listar_foruns')
+    
+#Views de postagem
 @login_required
 def visualizar_e_criar_postagens(request, forum_id):
     # Obtenha o objeto de fórum com base no forum_id ou retorne um erro 404 se não existir
@@ -137,19 +149,7 @@ def excluir_postagem(request, postagem_id):
         # Se o usuário não for o autor, você pode retornar uma mensagem de erro ou redirecioná-lo para outra página
         return redirect('visualizar_e_criar_postagens', forum_id=forum_id)
 
-def excluir_forum(request, forum_id):
-    # Obtenha o fórum a ser excluído
-    forum = get_object_or_404(Forum, id=forum_id)
-
-    # Verifique se o usuário atual é o autor do fórum
-    if request.user == forum.autor:
-        # Exclua o fórum
-        forum.delete()
-        return redirect('listar_foruns')
-    else:
-    # Redirecione para a página de listagem de fóruns
-        return redirect('listar_foruns')
-
+#Views de comentarios 
 def adicionar_comentario(request, postagem_id):
     postagem = Postagem.objects.get(pk=postagem_id)  # Substitua "Postagem" pelo nome do seu modelo de postagem
 
@@ -178,6 +178,7 @@ def excluir_comentario(request, comentario_id):
         # Trate a situação em que o usuário não está autorizado a excluir o comentário
         # Pode ser uma mensagem de erro ou redirecionamento para outra página
         return redirect('visualizar_e_criar_postagens', forum_id=comentario.postagem.forum.id)
+
 def editar_comentario(request, comentario_id):
     comentario = get_object_or_404(Comentario, id=comentario_id)
 
@@ -194,30 +195,13 @@ def editar_comentario(request, comentario_id):
         form = ComentarioForm(instance=comentario)
 
     return render(request, 'ProjetoApp/editar_comentario.html', {'form': form, 'comentario': comentario})
-# def banir_usuario(request, usuario_id):
-#     # Verifique se o usuário logado é um administrador
-#     if request.user.is_superuser:
-#         usuario = get_object_or_404(User, id=usuario_id)
-#         perfil = get_object_or_404(PerfilUsuario, usuario=usuario)
-#         perfil.banido = True
-#         perfil.save()
-#         # Redirecione para uma página de sucesso ou onde for apropriado
-#         return redirect('listar_usuarios')
-#     else:
-#         # Redirecione para uma página de erro ou onde for apropriado
-#         return redirect('listar_usuarios')
-    
-def listar_usuarios(request):
-    usuarios = User.objects.all()  # Consulta todos os usuários
-    return render(request, 'ProjetoApp/listar_usuarios.html', {'usuarios': usuarios})
+#Views de redirecionamento 
 @login_required
 @login_required
 @user_passes_test(testa_acesso)
 
 def forum(request):
     return render(request, 'ProjetoApp/listar_foruns.html')
-def paginaSecreta(request):
-    return render(request, 'registro/paginaSecreta.html')
 
 
 @login_required  # Isso garante que apenas usuários autenticados possam acessar as views

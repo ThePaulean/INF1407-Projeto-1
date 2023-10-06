@@ -7,7 +7,7 @@ class Forum(models.Model):
     descricao = models.TextField(blank=True, null=True)
     autor = models.ForeignKey(User, on_delete=models.CASCADE, default=1)  # Defina o valor padrão como 1 (ou o ID de outro usuário)
 
-    imagem = models.ImageField(upload_to='forum_images/', null=True, blank=True)  # se voc� quiser adicionar uma imagem ao f�rum
+    imagem = models.ImageField(upload_to='forum_images/', null=True, blank=True)  # se quiser adicionar uma imagem ao f�rum
 
     def __str__(self):
         return self.nome
