@@ -35,8 +35,8 @@ app_name = 'Projeto'
 
 urlpatterns = [
     path('admin/', admin.site.urls), #remover pois se nao podem atacar o site, da acesso a parte de adminstrador
-    path('',views.home, name='inicio'),
-    path('accounts/',views.homeSec,name='sec-home'),
+    #path('',views.home, name='inicio'),
+    path('',views.homeSec,name='sec-home'),
     path('accounts/login/', LoginView.as_view( template_name='registro/login.html',), name='sec-login'),
     path('accounts/profile/',views.pagina_admin, name='sec-paginaSecreta'),
     path('accounts/registro/',views.registro,name='sec-registro'),
